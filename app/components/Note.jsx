@@ -27,7 +27,13 @@ export default class Note extends React.Component {
   };
   renderNote = () => {
     // If the user clicks a normal note, trigger editing logic.
-    return <div onClick={this.edit}>{this.props.task}</div>;
+    const onDelete = this.props.onDelete;
+    return (
+      <div onClick={this.edit}>
+        <span className="task"> {this.props.task} </span>
+        {onDelete ? this.renderDelete() : null }
+      </div>
+      );
   };
   edit = () => {
     // Enter edit mode.
@@ -42,14 +48,17 @@ export default class Note extends React.Component {
     }
   };
   finishEdit = (e) => {
+    const value = e.target.value;
     if(this.props.onEdit) {
       this.props.onEdit(value);
-
       // Exit edit mode.
       this.setState({
         editing: false
       });
     }
+  };
+  renderDelete = () => {
+    return <button className="delete-note" onClick = {this.props.onDelete}>x</button>;
   };
 
 }
